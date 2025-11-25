@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galería Fotográfica</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --dark-bg: #121212;
+            --card-bg: #1e1e1e;
+            --accent: #2a2a2a;
+            --text-light: #e0e0e0;
+            --text-muted: #aaaaaa;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            padding-top: 76px;
+        }
+
+        .navbar, footer {
+            background-color: #000;
+        }
+
+        .hero-section {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
+                        url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 60vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid #333;
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .category-btn {
+            background-color: var(--accent);
+            border: 1px solid #444;
+            color: var(--text-light);
+            transition: 0.3s;
+        }
+
+        .category-btn:hover, .category-btn.active {
+            background-color: #3a3a3a;
+            border-color: #666;
+        }
+
+        .modal-content {
+            background-color: var(--card-bg);
+            color: var(--text-light);
+        }
+
+        .btn-close {
+            filter: invert(1);
+        }
+
+        .form-control {
+            background-color: var(--accent);
+            border: 1px solid #444;
+            color: var(--text-light);
+        }
+
+        .form-control:focus {
+            border-color: #666;
+            box-shadow: none;
+        }
+
+        .social-icon {
+            font-size: 1.3rem;
+            margin: 0 8px;
+            transition: color 0.3s;
+        }
+
+        .social-icon:hover {
+            color: #fff;
+        }
+
+        section {
+            padding: 40px 0;
+        }
+        * {
+        color: #ffffff !important;
+    }
+</style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">
+                <i class="fas fa-camera me-2"></i>Galería
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="#inicio">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#galeria">Galería</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section id="inicio" class="hero-section">
+        <div class="container text-center">
+            <h1 class="display-5 fw-bold">Capturando la Belleza en la Oscuridad</h1>
+            <p class="lead">Explora nuestra colección fotográfica</p>
+            <a href="#galeria" class="btn btn-outline-light btn-lg mt-3">Ver Galería</a>
+        </div>
+    </section>
+
+    <section id="galeria">
+        <div class="container">
+            <h2 class="text-center mb-4">Galería de Fotos</h2>
+
+            <div class="row mb-4 text-center">
+                <div class="col">
+                    <button class="btn category-btn active mx-1 mb-2" data-category="all">Todas</button>
+                    <button class="btn category-btn mx-1 mb-2" data-category="naturaleza">Naturaleza</button>
+                    <button class="btn category-btn mx-1 mb-2" data-category="urbano">Urbano</button>
+                    <button class="btn category-btn mx-1 mb-2" data-category="retratos">Retratos</button>
+                </div>
+            </div>
+
+            <div class="row" id="gallery-container"></div>
+        </div>
+    </section>
+
+    <div class="modal fade" id="imageModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title" id="modalTitle"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="" class="img-fluid rounded" id="modalImage">
+                    <p class="mt-3 text-muted" id="modalDescription"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section id="contacto" class="bg-dark">
+        <div class="container">
+            <h2 class="text-center mb-4">Contáctanos</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <form id="contactForm">
+                        <div class="mb-3"><input type="text" class="form-control" placeholder="Nombre" required></div>
+                        <div class="mb-3"><input type="email" class="form-control" placeholder="Email" required></div>
+                        <div class="mb-3"><textarea class="form-control" rows="4" placeholder="Mensaje" required></textarea></div>
+                        <div class="text-center"><button type="submit" class="btn btn-outline-light">Enviar</button></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="text-white py-3 text-center">
+        <div class="container">
+            <p class="mb-2">&copy; 2025 Galería Oscura</p>
+            <div>
+                <a href="#" class="text-white social-icon"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="text-white social-icon"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="text-white social-icon"><i class="fab fa-pinterest"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        const images = [
+            { id: 1, title: "Amanecer Montañoso", category: "naturaleza", src: "https://tse4.mm.bing.net/th/id/OIP.WkQ4uUieRelMDQ9WRsKPFAHaE8?pid=ImgDetMain", description: "Amanecer en la montaña." },
+            { id: 2, title: "Ciudad Nocturna", category: "urbano", src: "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/07/6a/40/1b.jpg", description: "Ciudad iluminada de noche." },
+            { id: 3, title: "Bosque Misterioso", category: "naturaleza", src: "https://tse3.mm.bing.net/th/id/OIP.8TIMb94e9tIE-pwxKWxSbgHaE7?pid=ImgDetMain", description: "Bosque con luz natural." },
+            { id: 4, title: "Arquitectura Moderna", category: "urbano", src: "https://okdiario.com/img/2018/03/22/arquitectura-moderna-5.jpg", description: "Edificio moderno." }
+        ];
+
+        function loadGallery(filter = 'all') {
+            const container = document.getElementById('gallery-container');
+            container.innerHTML = '';
+
+            const filtered = filter === 'all' ? images : images.filter(img => img.category === filter);
+
+            filtered.forEach(img => {
+                const col = document.createElement('div');
+                col.className = 'col-md-4 mb-4';
+                col.innerHTML = `
+                    <div class="card h-100">
+                        <img src="${img.src}" class="card-img-top" alt="${img.title}">
+                        <div class="card-body">
+                            <h5 class="card-title">${img.title}</h5>
+                            <button class="btn btn-sm btn-outline-light view" data-id="${img.id}">Ver más</button>
+                        </div>
+                    </div>`;
+                container.appendChild(col);
+            });
+
+            document.querySelectorAll('.view').forEach(btn => {
+                btn.onclick = () => {
+                    const img = images.find(i => i.id == btn.dataset.id);
+                    document.getElementById('modalTitle').textContent = img.title;
+                    document.getElementById('modalImage').src = img.src;
+                    document.getElementById('modalDescription').textContent = img.description;
+                    new bootstrap.Modal(document.getElementById('imageModal')).show();
+                };
+            });
+        }
+
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.onclick = () => {
+                document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                loadGallery(btn.dataset.category);
+            };
+        });
+
+        document.getElementById('contactForm').onsubmit = e => {
+            e.preventDefault();
+            alert('Mensaje enviado');
+            e.target.reset();
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadGallery();
+        });
+    </script>
+</body>
+</html>
